@@ -3,7 +3,11 @@ import axios from "axios";
 import DayList from "./DayList";
 import "components/Application.scss";
 import Appointment from "components/Appointment/index";
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+import {
+  getAppointmentsForDay,
+  getInterview,
+  getInterviewersForDay,
+} from "helpers/selectors";
 
 export default function Application(props) {
   const [state, setState] = useState({
@@ -22,7 +26,6 @@ export default function Application(props) {
       axios.get("/api/appointments"),
       axios.get("/api/interviewers"),
     ]).then(([days, appointments, interviewers]) => {
-      console.log(interviewers);
       setState((prev) => ({
         ...prev,
         days: days.data,
@@ -32,6 +35,45 @@ export default function Application(props) {
     });
   }, []);
   const dailyAppointments = getAppointmentsForDay(state, state.day);
+
+  function bookInterview(id, interview) {
+    return axios
+      .put(`/api/appointments/${id}`, { interview })
+      .then((response) => {
+        const appointment = {
+          ...state.appointments[id],
+          interview: { ...interview },
+        };
+
+        const appointments = {
+          ...state.appointments,
+          [id]: appointment,
+        };
+
+        setState({
+          ...state,
+          appointments,
+        });
+      });
+  }
+
+  function cancelInterview(id) {
+    return axios.delete(`/api/appointments/${id}`).then(() => {
+      const appointment = {
+        ...state.appointments[id],
+        interview: null,
+      };
+
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment,
+      };
+      setState({
+        ...state,
+        appointments,
+      });
+    });
+  }
 
   return (
     <main className="layout">
@@ -54,12 +96,17 @@ export default function Application(props) {
       <section className="schedule">
         {dailyAppointments.map((appointment) => {
           const interview = getInterview(state, appointment.interview);
+          const interviewers = getInterviewersForDay(state, state.day);
+          console.log("inter", interview);
           return (
             <Appointment
               key={appointment.id}
               id={appointment.id}
               time={appointment.time}
               interview={interview}
+              interviewers={interviewers}
+              bookInterview={bookInterview}
+              cancelInterview={cancelInterview}
             />
           );
         })}

@@ -23,3 +23,17 @@ export function getInterview(state, interview) {
   result.interviewer = interviewersObj[interviewerId]
   return result
 }
+
+export function getInterviewersForDay (state, day) {
+  const dayArr = state.days
+  const interviewersArr = state.interviewers
+  let result = [];
+  for (const eachDay of dayArr) {
+    if (eachDay.name === day) {
+      for (const eachId of eachDay.interviewers) {
+        result.push(interviewersArr[eachId])
+      }
+    }
+  }
+  return result
+}

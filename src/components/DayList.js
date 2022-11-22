@@ -7,7 +7,6 @@ export default function DayList(props) {
   return (
     <ul>
       {props.days.map((dayItem) => {
-        console.log(dayItem)
         return (
           <DayListItem
           key={dayItem.id}
