@@ -1,11 +1,11 @@
 export function getAppointmentsForDay(state, day) {
   const dayArr = state.days
-  const appointmentArr = state.appointments
+  const appointmentObj = state.appointments
   let result = [];
   for (const eachDay of dayArr) {
     if (eachDay.name === day) {
       for (const eachId of eachDay.appointments) {
-        result.push(appointmentArr[eachId])
+        result.push(appointmentObj[eachId])
       }
     }
   }
@@ -26,12 +26,12 @@ export function getInterview(state, interview) {
 
 export function getInterviewersForDay (state, day) {
   const dayArr = state.days
-  const interviewersArr = state.interviewers
+  const interviewersObj = state.interviewers
   let result = [];
   for (const eachDay of dayArr) {
     if (eachDay.name === day) {
       for (const eachId of eachDay.interviewers) {
-        result.push(interviewersArr[eachId])
+        result.push(interviewersObj[eachId])
       }
     }
   }

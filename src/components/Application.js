@@ -18,7 +18,7 @@ export default function Application(props) {
     cancelInterview
   } = useApplicationData();
 
-  const dailyAppointments = getAppointmentsForDay(state, state.day);
+  const dailyAppointments = getAppointmentsForDay(state, state.day);//appointment data for proper day
 
   return (
     <main className="layout">
@@ -30,7 +30,7 @@ export default function Application(props) {
         />
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
-          <DayList days={state.days} value={state.day} onChange={setDay} spots={state.spots}/>
+          <DayList days={state.days} value={state.day} onChange={setDay}/>
         </nav>
         <img
           className="sidebar__lhl sidebar--centered"
@@ -40,8 +40,8 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {dailyAppointments.map((appointment) => {
-          const interview = getInterview(state, appointment.interview);
-          const interviewers = getInterviewersForDay(state, state.day);
+          const interview = getInterview(state, appointment.interview);//booked?
+          const interviewers = getInterviewersForDay(state, state.day);//only interviewer info
           console.log("inter", interview);
           return (
             <Appointment

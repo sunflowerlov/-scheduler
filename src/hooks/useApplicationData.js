@@ -31,7 +31,7 @@ export default function useApplicationData() {
   function updateSpots(appointments, id) {
     const day = state.days.find((selectDay) =>
       selectDay.appointments.includes(id)
-    );
+    );//checking
     const dayIndex = state.days.findIndex((selectDay) =>
       selectDay.appointments.includes(id)
     );
@@ -52,10 +52,12 @@ export default function useApplicationData() {
       spots,
     };
 
-    let newDay = [...state.days];
-    newDay[dayIndex] = updateDay;
-    console.log("new", newDay);
-    return newDay;
+    console.log('update',updateDay)
+
+    let newDays = [...state.days];
+    newDays[dayIndex] = updateDay;
+    console.log("new", newDays);
+    return newDays;
   }
 
   function bookInterview(id, interview) {
